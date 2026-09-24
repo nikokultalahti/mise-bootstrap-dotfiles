@@ -1,0 +1,56 @@
+[settings]
+auto_update = true
+
+[vars]
+name = "Niko Kultalahti"
+
+# ==============================================================================
+# SECRETS (mise bootstrap secrets status)
+# Resolved before any other bootstrap phase.
+# ==============================================================================
+
+[bootstrap.secrets]
+github_ssh_key = "GITHUB_SSH_KEY"
+
+[bootstrap.directories."~/.ssh"]
+mode = "0700"
+
+[bootstrap.files."~/.ssh/id_ed25519"]
+content = "{{ secret(name=\"github_ssh_key\") }}"
+template = true
+mode = "0600"
+
+[bootstrap.files."~/.ssh/known_hosts"]
+content = "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl\n"
+
+# --- Dynamic Templates ---
+"~/.gitconfig"                     = { source = "dotfiles/gitconfig.tera", mode = "template" }
+
+# ==============================================================================
+# COMMON TOOLS (mise install)
+# Shared across all machines (Linux and macOS)
+# ==============================================================================
+[tools]
+"aqua:atuinsh/atuin" = "latest"
+"aqua:sharkdp/bat" = "latest"
+"aqua:bitwarden/clients" = "latest"
+"aqua:carapace-sh/carapace-bin" = "latest"
+"aqua:eza-community/eza" = "latest"
+"aqua:sharkdp/fd" = "latest"
+fnox = "latest"
+"aqua:junegunn/fzf" = "latest"
+"aqua:cli/cli" = "latest" # gh
+"aqua:helix-editor/helix" = "latest"
+"aqua:jqlang/jq" = "latest"
+"aqua:earendil-works/pi" = "latest"
+"aqua:pre-commit/pre-commit" = "latest"
+"aqua:BurntSushi/ripgrep" = "latest"
+"aqua:koalaman/shellcheck" = "latest"
+"aqua:getsops/sops" = "latest"
+"aqua:starship/starship" = "latest"
+"aqua:tealdeer-rs/tealdeer" = "latest"
+"aqua:alexpasmantier/television" = "latest"
+"aqua:mikefarah/yq" = "latest"
+"aqua:ajeetdsouza/zoxide" = "latest"
+"github:timrogers/litra-rs" = "latest"
+"github:timrogers/litra-autotoggle" = "latest"

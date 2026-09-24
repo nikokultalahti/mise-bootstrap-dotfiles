@@ -1,0 +1,43 @@
+[vars]
+name = "Niko Kultalahti"
+email = "hello@nikokultalahti.com"
+profile = "personal"
+
+# ==============================================================================
+# SECRETS (mise bootstrap secrets status)
+# Resolved before any other bootstrap phase.
+# ==============================================================================
+[bootstrap.secrets]
+ssh_config_personal = "SSH_CONFIG_PERSONAL"
+nextdns_config = "NEXTDNS_CONFIG"
+
+[bootstrap.files."~/.ssh/config"]
+content = "{{ secret(name=\"ssh_config_personal\") }}"
+template = true
+mode = "0600"
+
+[bootstrap.directories."/etc/systemd/resolved.conf.d"]
+owner = "root"
+mode = "0755"
+
+[bootstrap.files."/etc/systemd/resolved.conf.d/nextdns.conf"]
+content = "{{ secret(name=\"nextdns_config\") }}"
+template = true
+owner = "root"
+mode = "0644"
+notify = ["systemd-resolved.service"]
+
+# ==============================================================================
+# HOOK: PRE-PACKAGES
+# Runs immediately BEFORE bootstrap.packages.
+# Configures Flathub, migrates any Fedora Flatpaks, disables Fedora remote and
+# sets Gnome Software automatic updates.
+# ==============================================================================
+[bootstrap.hooks.pre-packages]
+run = "\"/scripts/linux/pre-packages-config-flatpak-gnome.sh\""
+
+# ==============================================================================
+# PERSONAL CLI TOOLS
+# ==============================================================================
+[tools]
+"github:aaif-goose/goose" = "latest"
