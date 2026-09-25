@@ -1,0 +1,4 @@
+# Written by bootstrap into this checkout (~/.config/mise) to persist which
+# profile (personal/work) was chosen, so `mise` picks it up without -E.
+# Machine-specific; never meant to be committed.
+/miserc.toml
