@@ -1,7 +1,12 @@
+# ==============================================================================
+# MISE WORK PROFILE (MacOS)
+# Activated via: mise -E work bootstrap
+# Everything for the work machine lives here.
+# The assumption is that MacOS is used as work machine.
+# ==============================================================================
 [vars]
 name = "Niko Kultalahti"
 email = "niko.kultalahti@gappsgroup.com"
-profile = "work"
 
 # ==============================================================================
 # SECRETS (mise bootstrap secrets status)
@@ -10,10 +15,40 @@ profile = "work"
 [bootstrap.secrets]
 ssh_config_work = "SSH_CONFIG_WORK"
 
+# ==============================================================================
+# WORK PACKAGES (mise bootstrap packages apply)
+# Installed via Homebrew formulae and casks on macOS
+# ==============================================================================
+[bootstrap.packages]
+# --- Homebrew Formulae ---
+"brew:zsh-autosuggestions" = "latest"
+"brew:zsh-syntax-highlighting" = "latest"
+"brew:googleworkspace-cli" = "latest"
+"brew:podman" = "latest"
+"brew:podman-compose" = "latest"
+
+# --- Homebrew Casks ---
+"brew-cask:nikitabobko/tap/aerospace" = "latest"
+"brew-cask:antigravity" = "latest"
+"brew-cask:bitwarden" = "latest"
+"brew-cask:claude-code" = "latest"
+"brew-cask:gcloud-cli" = "latest"
+"brew-cask:ghostty" = "latest"
+"brew-cask:google-chrome" = "latest"
+"brew-cask:obsidian" = "latest"
+"brew-cask:podman-desktop" = "latest"
+"brew-cask:raycast" = "latest"
+"brew-cask:shortcat" = "latest"
+"brew-cask:slack" = "latest"
+"brew-cask:visual-studio-code" = "latest"
+"brew-cask:yubico-authenticator" = "latest"
+"brew-cask:zed" = "latest"
+"brew-cask:font-jetbrains-mono-nerd-font" = "latest"
 
 # ==============================================================================
 # SYSTEM DIRECTORIES AND FILES (mise bootstrap files apply)
 # ==============================================================================
+
 # Writes ~/.config/mise/miserc.toml, mise's global environment-selection
 # file, so every future `mise` invocation loads config.personal.toml without
 # needing -E personal passed explicitly. Machine-specific, gitignored.
@@ -24,3 +59,27 @@ content = "env = [\"work\"]\n"
 content = "{{ secret(name=\"ssh_config_work\") }}"
 template = true
 mode = "0600"
+
+# ==============================================================================
+# WORK TOOLS (mise install)
+# ==============================================================================
+[tools]
+"aqua:google-antigravity/antigravity-cli" = "latest"
+"aqua:bitwarden/clients" = "latest"
+"aqua:anthropics/claude-code" = "latest"
+"aqua:controlplaneio-fluxcd/flux-operator" = "latest"
+"aqua:controlplaneio-fluxcd/flux-operator/flux-operator-mcp" = "latest"
+"gitlab:gitlab-org/cli" = "latest"
+"aqua:derailed/k9s" = "latest"
+"aqua:kubernetes/kubernetes/kubectl" = "latest"
+"aqua:ahmetb/kubectx" = "latest"
+"aqua:yannh/kubeconform" = "latest"
+"aqua:kubernetes-sigs/kustomize" = "latest"
+"core:node" = "latest"
+"aqua:opentofu/opentofu" = "latest"
+"aqua:getsops/sops" = "latest"
+"core:python" = "latest"
+"aqua:GoogleCloudPlatform/terraformer" = "latest"
+"aqua:gruntwork-io/terragrunt" = "latest"
+"aqua:tfutils/tfenv" = "latest"
+"aqua:terraform-linters/tflint" = "latest"
