@@ -11,6 +11,10 @@ profile = "personal"
 ssh_config_personal = "SSH_CONFIG_PERSONAL"
 nextdns_config = "NEXTDNS_CONFIG"
 
+# ==============================================================================
+# SYSTEM DIRECTORIES AND FILES (mise bootstrap files apply)
+# ==============================================================================
+
 [bootstrap.files."~/.ssh/config"]
 content = "{{ secret(name=\"ssh_config_personal\") }}"
 template = true
@@ -27,6 +31,19 @@ owner = "root"
 mode = "0644"
 notify = ["systemd-resolved.service"]
 
+# Replaces /etc/rpm-ostreed.conf for automatic staged updates
+[bootstrap.files."/etc/rpm-ostreed.conf"]
+source = "system_files/rpm-ostreed.conf"
+owner = "root"
+mode = "0644"
+notify = ["rpm-ostreed-automatic.timer"]
+
+# Sets up repository for VSCode to be layered
+[bootstrap.files."/etc/yum.repos.d/vscode.repo"]
+source = "system_files/vscode.repo"
+owner = "root"
+mode = "0644"
+
 # ==============================================================================
 # HOOK: PRE-PACKAGES
 # Runs immediately BEFORE bootstrap.packages.
@@ -35,6 +52,22 @@ notify = ["systemd-resolved.service"]
 # ==============================================================================
 [bootstrap.hooks.pre-packages]
 run = "\"/scripts/linux/pre-packages-config-flatpak-gnome.sh\""
+
+# ==============================================================================
+# SYSTEM SERVICES (mise bootstrap services apply)
+# Converges systemd units (both system-level timers and user sockets)
+# ==============================================================================
+[bootstrap.services."rpm-ostreed-automatic.timer"]
+# Enables and starts the staged OS update timer on Silverblue
+state = "running"
+enabled = true
+
+[bootstrap.services."systemd-resolved.service"]
+# Already running by default; declared so the nextdns.conf notify above can
+# restart it when the file changes
+state = "running"
+enabled = true
+on_change = "restart"
 
 # ==============================================================================
 # PERSONAL CLI TOOLS
