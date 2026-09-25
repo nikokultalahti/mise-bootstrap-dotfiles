@@ -68,3 +68,10 @@ fnox = "latest"
 "aqua:ajeetdsouza/zoxide" = "latest"
 "github:timrogers/litra-rs" = "latest"
 "github:timrogers/litra-autotoggle" = "latest"
+
+# ==============================================================================
+# HOOK: FINAL
+# Switch git origin from the HTTPS over to SSH
+# ==============================================================================
+[bootstrap.hooks.final]
+run = "git -C \"$HOME/.config/mise\" remote set-url origin git@github.com:nikokultalahti/mise-bootstrap-dotfiles.git"
