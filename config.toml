@@ -37,11 +37,10 @@ content = "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKL
 # ==============================================================================
 [dotfiles]
 # --- Static Configuration Files ---
-"~/.config/atuin/config.toml"      = { source = "dotfiles/.config/atuin/config.toml", mode = "copy" }
-"~/.config/bat"                    = { source = "dotfiles/.config/bat", mode = "copy" }
-"~/.config/tealdeer/config.toml"   = { source = "dotfiles/.config/tealdeer/config.toml", mode = "copy" }
-"~/.bashrc"                        = { source = "dotfiles/.bashrc", mode = "copy" }
-
+"~/.config/atuin/config.toml"        = { source = "dotfiles/.config/atuin/config.toml", mode = "copy" }
+"~/.config/bat"                      = { source = "dotfiles/.config/bat", mode = "copy" }
+"~/.config/tealdeer/config.toml"     = { source = "dotfiles/.config/tealdeer/config.toml", mode = "copy" }
+"~/.bashrc"                          = { source = "dotfiles/.bashrc", mode = "copy" }
 
 # --- Dynamic Templates ---
 "~/.zshrc"                         = { source = "dotfiles/zshrc.tera", mode = "template" }
@@ -62,6 +61,16 @@ variants = [
   { os = "macos", target = "~/.config/zed/settings.json" },
   { os = "linux", target = "~/.var/app/dev.zed.Zed/config/zed/settings.json" }
 ]
+
+[dotfiles."aerospace/config"]
+source = "dotfiles/.config/aerospace/aerospace.toml"
+mode = "copy"
+variants = [{ os = "macos", target = "~/.config/aerospace/aerospace.toml" }]
+
+[dotfiles."ghostty/config"]
+source = "dotfiles/.config/ghostty/config"
+mode = "copy"
+variants = [{ os = "macos", target = "~/.config/ghostty/config" }]
 
 # ==============================================================================
 # COMMON TOOLS (mise install)
