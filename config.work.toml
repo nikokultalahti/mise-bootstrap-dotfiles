@@ -10,6 +10,16 @@ profile = "work"
 [bootstrap.secrets]
 ssh_config_work = "SSH_CONFIG_WORK"
 
+
+# ==============================================================================
+# SYSTEM DIRECTORIES AND FILES (mise bootstrap files apply)
+# ==============================================================================
+# Writes ~/.config/mise/miserc.toml, mise's global environment-selection
+# file, so every future `mise` invocation loads config.personal.toml without
+# needing -E personal passed explicitly. Machine-specific, gitignored.
+[bootstrap.files."~/.config/mise/miserc.toml"]
+content = "env = [\"work\"]\n"
+
 [bootstrap.files."~/.ssh/config"]
 content = "{{ secret(name=\"ssh_config_work\") }}"
 template = true
