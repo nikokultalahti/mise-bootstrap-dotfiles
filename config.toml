@@ -68,3 +68,26 @@ fnox = "latest"
 "aqua:ajeetdsouza/zoxide" = "latest"
 "github:timrogers/litra-rs" = "latest"
 "github:timrogers/litra-autotoggle" = "latest"
+
+# ==============================================================================
+# TASKS
+# ==============================================================================
+[tasks.reconverge]
+description = "Re-apply this machine's bootstrap config, e.g. after `git pull` or a local edit"
+run = '''
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$HOME/.config/mise"
+
+if ! bw login --check &>/dev/null; then
+    echo "[-] Logging in to Bitwarden..."
+    bw login
+fi
+
+echo "[-] Unlocking Bitwarden vault..."
+export BW_SESSION="$(bw unlock --raw)"
+
+echo "[-] Running bootstrap through fnox..."
+fnox exec -- mise bootstrap --adopt nikokultalahti/mise-bootstrap-dotfiles
+'''
