@@ -51,7 +51,7 @@ mode = "0644"
 # sets Gnome Software automatic updates.
 # ==============================================================================
 [bootstrap.hooks.pre-packages]
-run = "\"/scripts/linux/pre-packages-config-flatpak-gnome.sh\""
+run = "bash \"scripts/linux/pre-packages.sh\""
 
 # ==============================================================================
 # SYSTEM SERVICES (mise bootstrap services apply)
