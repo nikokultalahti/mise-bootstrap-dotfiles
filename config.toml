@@ -79,7 +79,6 @@ fnox = "latest"
 "aqua:cli/cli" = "latest" # gh
 "aqua:helix-editor/helix" = "latest"
 "aqua:jqlang/jq" = "latest"
-"aqua:earendil-works/pi" = "latest"
 "aqua:pre-commit/pre-commit" = "latest"
 "aqua:BurntSushi/ripgrep" = "latest"
 "aqua:koalaman/shellcheck" = "latest"

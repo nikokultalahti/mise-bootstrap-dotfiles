@@ -1,7 +1,12 @@
+# ==============================================================================
+# MISE PERSONAL PROFILE (Fedora Silverblue)
+# Activated via: mise -E personal bootstrap
+# Everything for the personal machine lives here.
+# The assumption is that Linux is used as personal machine.
+# ==============================================================================
 [vars]
 name = "Niko Kultalahti"
 email = "hello@nikokultalahti.com"
-profile = "personal"
 
 # ==============================================================================
 # SECRETS (mise bootstrap secrets status)
@@ -12,8 +17,72 @@ ssh_config_personal = "SSH_CONFIG_PERSONAL"
 nextdns_config = "NEXTDNS_CONFIG"
 
 # ==============================================================================
+# HOOK: PRE-PACKAGES
+# Runs immediately BEFORE bootstrap.packages.
+# Configures Flathub, migrates any Fedora Flatpaks, disables Fedora remote and
+# sets Gnome Software automatic updates.
+# ==============================================================================
+[bootstrap.hooks.pre-packages]
+run = "bash \"scripts/linux/pre-packages.sh\""
+
+# ==============================================================================
+# PERSONAL PACKAGES (mise bootstrap packages apply)
+# ==============================================================================
+[bootstrap.packages]
+"flatpak:org.gtk.Gtk3theme.adw-gtk3" = "latest"
+"flatpak:org.gtk.Gtk3theme.adw-gtk3-dark" = "latest"
+"flatpak:org.gnome.Firmware" = "latest"
+"flatpak:com.github.tchx84.Flatseal" = "latest"
+"flatpak:io.github.flattool.Warehouse" = "latest"
+"flatpak:com.mattjakeman.ExtensionManager" = "latest"
+"flatpak:io.github.flattool.Ignition" = "latest"
+"flatpak:io.github.getnf.embellish" = "latest"
+"flatpak:com.bitwarden.desktop" = "latest"
+"flatpak:org.mozilla.firefox" = "latest"
+"flatpak:org.libreoffice.LibreOffice" = "latest"
+"flatpak:be.alexandervanhee.gradia" = "latest"
+"flatpak:com.yubico.yubioath" = "latest"
+"flatpak:page.tesk.Refine" = "latest"
+"flatpak:io.gitlab.adhami3310.Impression" = "latest"
+"flatpak:org.gnome.World.PikaBackup" = "latest"
+"flatpak:dev.qwery.AddWater" = "latest"
+"flatpak:io.github.qwersyk.Newelle" = "latest"
+"flatpak:app.drey.Dialect" = "latest"
+"flatpak:cafe.avery.Delfin" = "latest"
+"flatpak:com.github.PintaProject.Pinta" = "latest"
+"flatpak:com.nextcloud.desktopclient.nextcloud" = "latest"
+"flatpak:de.haeckerfelix.Fragments" = "latest"
+"flatpak:de.schmidhuberj.tubefeeder" = "latest" # Pipeline
+"flatpak:org.nickvision.tubeconverter" = "latest" # Parabolic
+"flatpak:dev.geopjr.Tuba" = "latest"
+"flatpak:io.github.alainm23.planify" = "latest"
+"flatpak:org.gnome.World.Iotas" = "latest"
+"flatpak:org.gnome.gitlab.cheywood.Pulp" = "latest"
+"flatpak:org.gnome.gitlab.somas.Apostrophe" = "latest"
+"flatpak:org.signal.Signal" = "latest"
+"flatpak:re.sonny.Eloquent" = "latest"
+"flatpak:app.fotema.Fotema" = "latest"
+"flatpak:com.github.maoschanz.drawing" = "latest"
+"flatpak:io.gitlab.adhami3310.Converter" = "latest"
+"flatpak:org.mozilla.thunderbird_esr" = "latest"
+"flatpak:com.github.jeromerobert.pdfarranger" = "latest"
+"flatpak:page.codeberg.censor.Censor" = "latest"
+"flatpak:md.obsidian.Obsidian" = "latest"
+
+# --- Dev Tools ---
+"flatpak:dev.zed.Zed" = "latest"
+"flatpak:re.sonny.Commit" = "latest"
+"flatpak:de.wwwtech.gitte" = "latest"
+"flatpak:me.iepure.devtoolbox" = "latest"
+"flatpak:com.mardojai.ForgeSparks" = "latest"
+"flatpak:com.github.marhkb.Pods" = "latest"
+"flatpak:org.gnome.Boxes" = "latest"
+"flatpak:com.ranfdev.DistroShelf" = "latest"
+
+# ==============================================================================
 # SYSTEM DIRECTORIES AND FILES (mise bootstrap files apply)
 # ==============================================================================
+
 # Writes ~/.config/mise/miserc.toml, mise's global environment-selection
 # file, so every future `mise` invocation loads config.personal.toml without
 # needing -E personal passed explicitly. Machine-specific, gitignored.
@@ -50,15 +119,6 @@ owner = "root"
 mode = "0644"
 
 # ==============================================================================
-# HOOK: PRE-PACKAGES
-# Runs immediately BEFORE bootstrap.packages.
-# Configures Flathub, migrates any Fedora Flatpaks, disables Fedora remote and
-# sets Gnome Software automatic updates.
-# ==============================================================================
-[bootstrap.hooks.pre-packages]
-run = "bash \"scripts/linux/pre-packages.sh\""
-
-# ==============================================================================
 # SYSTEM SERVICES (mise bootstrap services apply)
 # Converges systemd units (both system-level timers and user sockets)
 # ==============================================================================
@@ -75,7 +135,38 @@ enabled = true
 on_change = "restart"
 
 # ==============================================================================
-# PERSONAL CLI TOOLS
+# LINUX SYSTEMD UNITS FOR AUTOMATIC UPDATES (mise bootstrap linux systemd-units apply)
+# Creates systemd units for background updates (Flatpaks, Mise, Distrobox)
+# ==============================================================================
+[bootstrap.linux.systemd.units.automatic-daily-updates]
+description = "Automatic daily background update for Flatpaks, Mise tools, and Distrobox containers"
+type = "oneshot"
+exec_start = "/usr/bin/bash -c 'flatpak update -y --noninteractive && %h/.local/bin/mise upgrade --yes && (command -v distrobox-upgrade &>/dev/null && distrobox-upgrade --all || true)'"
+start = false
+wanted_by = []
+
+[bootstrap.linux.systemd.units.automatic-daily-updates-timer]
+description = "Automatic daily background update timer for Flatpaks, Mise tools, and Distrobox containers"
+on_calendar = "daily"
+randomized_delay_sec = "30m"
+persistent = true
+unit = "workstation-auto-update"
+
+# ==============================================================================
+# PERSONAL TOOLS (mise install)
 # ==============================================================================
 [tools]
+"github:yt-dlp/yt-dlp" = "latest"
 "github:aaif-goose/goose" = "latest"
+"aqua:earendil-works/pi" = "latest"
+"aqua:anomalyco/opencode" = "latest"
+"github:danielmiessler/fabric" = "latest"
+"aqua:siderolabs/talos" = "latest"
+
+# ==============================================================================
+# HOOK: POST-TOOLS
+# Runs immediately AFTER bootstrap.tools.
+# Enables rootless Podman user socket for Dev Containers.
+# ==============================================================================
+[bootstrap.hooks.pre-tools]
+run = "\"scripts/linux/post-tools.sh\""
