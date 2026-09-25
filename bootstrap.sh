@@ -46,11 +46,10 @@ export BOOTSTRAP_ENV_FLAG
 # bitwarden/fnox are pulled in via `mise exec` here instead of `mise use -g`:
 # `mise use -g` would write ~/.config/mise/config.toml, which makes
 # `mise bootstrap --adopt` refuse to adopt the repo afterwards.
-# mise exec` installs/activates them ad hoc for this one
-# command without touching any config file, leaving ~/.config/mise untouched
-# for --adopt to clone into. They're already declared under [tools] in this
-# repo's config, so this is only needed for this bootstrapping chicken-and-egg
-# step.
+#
+# fnox needs fnox.toml on disk before it will resolve anything. That
+# file only exists once this repo is cloned into ~/.config/mise. So we
+# clone it ourselves with plain git first (a no-op if already cloned).
 # ------------------------------------------------------------------------------
 echo ""
 echo "[-] Preparing Bitwarden + fnox and running bootstrap..."
@@ -77,6 +76,17 @@ mise exec bitwarden@latest fnox@latest -- bash -c '
     export BW_SESSION="$(bw unlock --raw)"
     echo "[✓] Bitwarden vault unlocked"
 
+    DOTFILES_REPO="nikokultalahti/mise-bootstrap-dotfiles"
+    DOTFILES_DIR="$HOME/.config/mise"
+
+    if [ ! -d "$DOTFILES_DIR/.git" ]; then
+        echo "[-] Cloning dotfiles repo into $DOTFILES_DIR..."
+        git clone "https://github.com/${DOTFILES_REPO}.git" "$DOTFILES_DIR"
+    else
+        echo "[✓] $DOTFILES_DIR is already a git checkout"
+    fi
+
+    cd "$DOTFILES_DIR"
     echo "[-] Running bootstrap through fnox..."
-    fnox exec -- mise $BOOTSTRAP_ENV_FLAG bootstrap --adopt nikokultalahti/mise-bootstrap-dotfiles
+    fnox exec -- mise $BOOTSTRAP_ENV_FLAG bootstrap --adopt "$DOTFILES_REPO"
 '
