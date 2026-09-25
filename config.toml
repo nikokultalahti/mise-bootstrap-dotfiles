@@ -44,7 +44,24 @@ content = "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKL
 
 
 # --- Dynamic Templates ---
+"~/.zshrc"                         = { source = "dotfiles/zshrc.tera", mode = "template" }
 "~/.gitconfig"                     = { source = "dotfiles/gitconfig.tera", mode = "template" }
+
+[dotfiles."vscode/settings.json"]
+source = "dotfiles/.config/vscode/settings.tera"
+mode = "template"
+variants = [
+  { os = "macos", target = "~/Library/Application Support/Code/User/settings.json" },
+  { os = "linux", target = "~/.config/Code/User/settings.json" }
+]
+
+[dotfiles."zed/settings.json"]
+source = "dotfiles/.config/zed/settings.tera"
+mode = "template"
+variants = [
+  { os = "macos", target = "~/.config/zed/settings.json" },
+  { os = "linux", target = "~/.var/app/dev.zed.Zed/config/zed/settings.json" }
+]
 
 # ==============================================================================
 # COMMON TOOLS (mise install)
