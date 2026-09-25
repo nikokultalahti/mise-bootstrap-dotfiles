@@ -1,9 +1,8 @@
 # ==============================================================================
 # MISE MASTER CONFIGURATION
-# Shared across both machines (personal and work).
+# Shared across both machines (personal/linu and work/macos).
 # Role layers (mise.personal.toml / mise.work.toml) both activate explicitly
-# via bootstrap.sh or when ran manually with -E personal / -E work. Each role file
-# contains everything for that machine.
+# via bootstrap.sh. Each role file contains everything for that machine.
 # ==============================================================================
 [settings]
 auto_update = true
@@ -37,6 +36,13 @@ content = "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKL
 # DOTFILES & TEMPLATES (mise bootstrap dotfiles apply)
 # ==============================================================================
 [dotfiles]
+# --- Static Configuration Files ---
+"~/.config/atuin/config.toml"      = { source = "dotfiles/.config/atuin/config.toml", mode = "copy" }
+"~/.config/bat"                    = { source = "dotfiles/.config/bat", mode = "copy" }
+"~/.config/tealdeer/config.toml"   = { source = "dotfiles/.config/tealdeer/config.toml", mode = "copy" }
+"~/.bashrc"                        = { source = "dotfiles/.bashrc", mode = "copy" }
+
+
 # --- Dynamic Templates ---
 "~/.gitconfig"                     = { source = "dotfiles/gitconfig.tera", mode = "template" }
 
