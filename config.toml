@@ -1,3 +1,10 @@
+# ==============================================================================
+# MISE MASTER CONFIGURATION
+# Shared across both machines (personal and work).
+# Role layers (mise.personal.toml / mise.work.toml) both activate explicitly
+# via bootstrap.sh or when ran manually with -E personal / -E work. Each role file
+# contains everything for that machine.
+# ==============================================================================
 [settings]
 auto_update = true
 
@@ -8,9 +15,12 @@ name = "Niko Kultalahti"
 # SECRETS (mise bootstrap secrets status)
 # Resolved before any other bootstrap phase.
 # ==============================================================================
-
 [bootstrap.secrets]
 github_ssh_key = "GITHUB_SSH_KEY"
+
+# ==============================================================================
+# SYSTEM DIRECTORIES AND FILES (mise bootstrap files apply)
+# ==============================================================================
 
 [bootstrap.directories."~/.ssh"]
 mode = "0700"
@@ -23,6 +33,10 @@ mode = "0600"
 [bootstrap.files."~/.ssh/known_hosts"]
 content = "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl\n"
 
+# ==============================================================================
+# DOTFILES & TEMPLATES (mise bootstrap dotfiles apply)
+# ==============================================================================
+[dotfiles]
 # --- Dynamic Templates ---
 "~/.gitconfig"                     = { source = "dotfiles/gitconfig.tera", mode = "template" }
 
