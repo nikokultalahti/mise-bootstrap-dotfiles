@@ -1,0 +1,61 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "agent_servers": {
+    {% if mise_env is defined and "personal" in mise_env %}
+    "goose": {
+      "type": "registry"
+    },
+    "opencode": {
+      "default_config_options": {
+        "mode": "plan",
+        "effort": "default",
+        "model": "mistral/mistral-medium-latest"
+      },
+      "type": "registry"
+    }
+    {% endif %}
+  }
+  "terminal": {
+    "shell": {
+      "program": "/usr/bin/zsh"
+    }
+  },
+  "ui_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "edit_predictions": {
+    "mode": "subtle",
+    {% if mise_env is defined and "personal" in mise_env %}
+    "provider": "codestral"
+    {% endif %}
+  },
+  "collaboration_panel": {
+    "button": false
+  },
+  "git_panel": {
+    "dock": "left"
+  },
+  "agent": {
+    "dock": "right",
+    "sidebar_side": "right",
+    "favorite_models": [],
+    "model_parameters": []
+  },
+  "project_panel": {
+    "dock": "left"
+  },
+  "icon_theme": "Catppuccin Mocha",
+  "ui_font_size": 17.0,
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "Catppuccin Mocha",
+  },
+}
