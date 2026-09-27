@@ -32,7 +32,7 @@ mode = "0600"
 
 [bootstrap.files."~/.ssh/known_hosts"]
 content = "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl\n"
-mode = 644
+mode = "0644"
 
 # ==============================================================================
 # DOTFILES & TEMPLATES (mise bootstrap dotfiles apply)
