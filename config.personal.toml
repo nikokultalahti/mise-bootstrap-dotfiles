@@ -118,6 +118,16 @@ source = "system_files/vscode.repo"
 owner = "root"
 mode = "0644"
 
+# Add udev rules for ZSA keyboards
+[bootstrap.directories."/etc/udev/rules.d"]
+owner = "root"
+mode = "0644"
+
+[bootstrap.files."/etc/udev/rules.d/50-zsa.rules"]
+source = "system_files/50-zsa.rules"
+owner = "root"
+mode = "0644"
+
 # ==============================================================================
 # SYSTEM SERVICES (mise bootstrap services apply)
 # Converges systemd units (both system-level timers and user sockets)
